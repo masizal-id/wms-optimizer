@@ -10,23 +10,19 @@
 
 if (!defined('ABSPATH')) exit;
 
-// Include necessary files
 require_once plugin_dir_path(__FILE__) . 'includes/minify.php';
 require_once plugin_dir_path(__FILE__) . 'includes/cache.php';
 
-// Hooks
 add_action('template_redirect', 'so_minify_output');
 add_action('init', 'so_setup_cache');
 add_action('admin_menu', 'so_add_admin_menu');
 add_action('admin_init', 'so_register_settings');
 add_action('admin_bar_menu', 'so_admin_bar_cache_clear', 999);
 
-// Admin Menu
 function so_add_admin_menu() {
     add_menu_page('WMS Optimizer', 'WMS Optimizer', 'manage_options', 'wms-optimizer', 'so_settings_page', 'dashicons-admin-generic');
 }
 
-// Settings Registration
 function so_register_settings() {
     register_setting('so_settings_group', 'so_minify_html');
     register_setting('so_settings_group', 'so_minify_css');
@@ -71,7 +67,6 @@ function so_settings_page() {
     <?php
 }
 
-// Clear Cache Functionality
 add_action('admin_post_clear_cache', 'so_clear_cache');
 
 function so_clear_cache() {
@@ -79,7 +74,6 @@ function so_clear_cache() {
         wp_die('Insufficient permissions');
     }
 
-    // Clear the cache directory
     $cache_dir = WP_CONTENT_DIR . '/cache/';
     if (is_dir($cache_dir)) {
         $files = glob($cache_dir . '*', GLOB_MARK);
@@ -92,7 +86,6 @@ function so_clear_cache() {
         }
     }
 
-    // Clear transients and other cache mechanisms
     global $wpdb;
     $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_%'");
     wp_cache_flush();
