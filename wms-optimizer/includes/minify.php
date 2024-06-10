@@ -1,5 +1,4 @@
 <?php
-// Minify HTML output
 function so_minify_output() {
     if (get_option('so_minify_html')) {
         ob_start('so_minify_html');
@@ -8,25 +7,24 @@ function so_minify_output() {
 
 function so_minify_html($buffer) {
     $search = [
-        '/<!--(?!<!)[^\[>][\s\S]*?-->/', // Remove HTML comments
-        '/\s+(?=<)/',  // Remove whitespace before tags
-        '/>\s+/',  // Remove whitespace after tags
-        '/\s{2,}/',  // Shorten multiple whitespace sequences
+        '/<!--(?!<!)[^\[>][\s\S]*?-->/', 
+        '/\s+(?=<)/',  
+        '/>\s+/',  
+        '/\s{2,}/', 
     ];
     $replace = [
-        '', // Remove comments
-        '', // Remove whitespace before tags
-        '>', // Remove whitespace after tags
-        ' ', // Shorten multiple whitespace sequences
+        '',
+        '',
+        '>',
+        ' ',
     ];
     return preg_replace($search, $replace, $buffer);
 }
 
-// Minify CSS output
 function so_minify_css($css) {
-    $css = preg_replace('/\/\*[^*]*\*+([^\/][^*]*\*+)*\//', '', $css); // Remove comments
-    $css = preg_replace('/\s*([{}|:;,])\s*/', '$1', $css); // Remove whitespace around punctuation
-    $css = preg_replace('/;\s*}/', '}', $css); // Remove whitespace before closing brace
+    $css = preg_replace('/\/\*[^*]*\*+([^\/][^*]*\*+)*\//', '', $css);
+    $css = preg_replace('/\s*([{}|:;,])\s*/', '$1', $css);
+    $css = preg_replace('/;\s*}/', '}', $css);
     return $css;
 }
 
@@ -34,7 +32,6 @@ add_filter('style_loader_tag', 'so_minify_css_output', 10, 2);
 
 function so_minify_css_output($html, $handle) {
     if (get_option('so_minify_css') && strpos($html, '.css') !== false) {
-        // Extract URL from style tag
         preg_match('/href=["\']?([^"\'>]+)["\']?/', $html, $matches);
         if (!empty($matches[1])) {
             $css_url = $matches[1];
