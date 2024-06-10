@@ -40,12 +40,6 @@ Fungsi minify CSS telah dioptimalkan untuk memastikan struktur dan tampilan situ
 
 WMS Optimizer dirancang untuk bekerja dengan sebagian besar tema. Namun, jika Anda mengalami masalah kompatibilitas, silakan hubungi dukungan kami.
 
-== Screenshots ==
-
-1. Halaman Pengaturan Plugin
-2. Contoh Minify HTML dan CSS
-3. Tampilan Admin Bar dengan Tombol Hapus Cache
-
 == Changelog ==
 
 = 1.0.1 =
