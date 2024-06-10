@@ -9,13 +9,11 @@ function so_setup_cache() {
         $request_uri = $_SERVER['REQUEST_URI'];
         $cache_file = $cache_dir . md5($request_uri) . '.html';
 
-        // Serve from cache if exists
         if (file_exists($cache_file)) {
             echo file_get_contents($cache_file);
             exit;
         }
 
-        // Save buffer to cache on shutdown
         ob_start(function ($buffer) use ($cache_file) {
             file_put_contents($cache_file, $buffer);
             return $buffer;
